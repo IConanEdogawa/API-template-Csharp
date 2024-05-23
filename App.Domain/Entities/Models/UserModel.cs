@@ -9,6 +9,7 @@ namespace App.Domain.Entities.Models
     public class UserModel : IAuditable
     {
         public Guid Id { get; set; }
+        public long TgId { get; set; }
         public string FullName { get; set; }
         public string UserName { get; set; }
         public int Age { get; set; }

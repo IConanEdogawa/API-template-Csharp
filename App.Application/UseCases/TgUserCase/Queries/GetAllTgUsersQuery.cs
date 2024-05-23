@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace App.Application.UseCases.UserCase.Queries
 {
-    public class GetAllTgUsersQuery : IRequest<List<UserModel>>
+    public class GetAllTgUsersQuery : IRequest<List<TgUser>>
     {
 
     }

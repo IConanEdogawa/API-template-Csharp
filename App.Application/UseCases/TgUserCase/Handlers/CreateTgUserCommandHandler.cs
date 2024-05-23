@@ -35,11 +35,8 @@ namespace App.Application.UseCases.UserCase.Handlers
             {
                 var user = new UserModel()
                 {
-                    FullName = request.FullName,
-                    UserName = request.UserName,
-                    Age = request.Age,
-                    Email = request.Email,
-                    Password = request.Password
+                    TgId = request.TgId,
+                    UserName = request.UserName
                 };
                 await _appDbContext.Users.AddAsync(user);
                 await _appDbContext.SaveChangesAsync(cancellationToken);

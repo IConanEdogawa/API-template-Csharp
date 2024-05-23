@@ -19,7 +19,7 @@ namespace WebApplication1.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Login(CreateUserCommand command)
+        public async Task<IActionResult> Login(CreateTgUserCommand command)
         {
             var result = await _mediatr.Send(command);
 
@@ -37,7 +37,7 @@ namespace WebApplication1.Controllers
         public async Task<IActionResult> GetAllUser()
         {
 
-            var result = await _mediatr.Send(new GetAllUsersQuery());
+            var result = await _mediatr.Send(new GetAllTgUsersQuery());
 
             if(result is not null)
             {

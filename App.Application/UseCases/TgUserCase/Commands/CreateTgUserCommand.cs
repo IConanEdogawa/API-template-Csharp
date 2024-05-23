@@ -10,10 +10,7 @@ namespace App.Application.UseCases.UserCase.Commands
 {
     public class CreateTgUserCommand : IRequest<ResponseModel>
     {
-        public string FullName { get; set; }
-        public string UserName { get; set; }
-        public int Age { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
+        public long TgId { get; set; }
+        public long UserName { get; set;}
     }
 }
