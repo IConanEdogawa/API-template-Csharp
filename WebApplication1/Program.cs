@@ -1,8 +1,10 @@
 using App.Application;
+using App.Application.BackgroundServices;
 using App.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Telegram.Bot;
 
 internal class Program
 {
@@ -19,6 +21,13 @@ internal class Program
         // Register your custom services
         builder.Services.AddApplication();
         builder.Services.AddInfrastructure(builder.Configuration);
+        builder.Services.AddSingleton<ITelegramBotClient>(provider =>
+        {
+            var botToken = builder.Configuration["AppSettings:TelegramBot:Token"];
+            return new TelegramBotClient(botToken!);
+        });
+
+        builder.Services.AddHostedService<Greeting>();
 
         var app = builder.Build();
 

@@ -1,63 +1,27 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Telegram.Bot;
 using Telegram.Bot.Args;
 
 namespace App.Application.BackgroundServices
 {
-    public class Greating : BackgroundService
+    public class Greeting : BackgroundService
     {
         private readonly TelegramBotClient _botClient;
+        private readonly ILogger<Greeting> _logger;
 
-        public Greating(TelegramBotClient botClient)
+        public Greeting(TelegramBotClient botClient, ILogger<Greeting> logger)
         {
-            _botClient = botClient;
+            _botClient = botClient ?? throw new ArgumentNullException(nameof(botClient));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        protected override Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _botClient.OnMessage += Bot_OnMessage;
-            _botClient.StartReceiving();
-
-            return Task.CompletedTask;
-        }
-
-        private async void Bot_OnMessage(object sender, MessageEventArgs e)
-        {
-            var message = e.Message;
-
-            // Обработка входящих сообщений
-            if (message.Text != null)
-            {
-                // Обработка сообщения и отправка ответа
-                await ProcessMessageAsync(message.Chat.Id, message.Text);
-            }
-        }
-
-        private async Task ProcessMessageAsync(long chatId, string message)
-        {
-            // Реализация логики бота здесь
-            // Например, проверка определенных команд или ключевых слов
-            if (message.Contains("/start"))
-            {
-                await _botClient.SendTextMessageAsync(chatId, "Добро пожаловать в бота!");
-            }
-            else if (message.Contains("/register"))
-            {
-                // Логика регистрации
-                // Например: await RegisterUserAsync(chatId);
-            }
-            else if (message.Contains("/profile"))
-            {
-                // Логика просмотра профиля
-                // Например: await ViewProfileAsync(chatId);
-            }
-            else
-            {
-                // Ответ по умолчанию для нераспознанных команд
-                await _botClient.SendTextMessageAsync(chatId, "Извините, я не понял эту команду.");
-            }
+            await _botClient.SendTextMessageAsync(chatId: 5945913071, text: "Assalomu alaykum ! hayrli kun.", cancellationToken: stoppingToken);
         }
     }
 }
