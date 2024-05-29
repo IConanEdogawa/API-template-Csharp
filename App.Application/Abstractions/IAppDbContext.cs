@@ -11,7 +11,6 @@ namespace App.Application.Abstractions
     public interface IAppDbContext
     {
         DbSet<UserModel> Users { get; set; }
-        DbSet<TgUser> TgUsers { get; set; }
         public Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

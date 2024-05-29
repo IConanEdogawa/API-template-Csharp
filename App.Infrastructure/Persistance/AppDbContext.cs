@@ -16,6 +16,5 @@ namespace App.Infrastructure.Persistance
 
         }
         public DbSet<UserModel> Users { get; set; }
-        public DbSet<TgUser> TgUsers { get; set; }
     }
 }

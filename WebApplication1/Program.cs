@@ -1,12 +1,12 @@
 using App.Application;
-using App.Application.BackgroundServices;
+using App.Application.Extensions;
 using App.Infrastructure;
-using ForTelegram.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
+using System;
 
 internal class Program
 {
@@ -29,10 +29,8 @@ internal class Program
             return new TelegramBotClient(botToken!);
         });
 
-        //builder.Services.AddHostedService<BS>();
-        builder.Services.AddSingleton<IUpdateHandler, BotUpdateHand>();
-
-        builder.Services.AddHostedService<Greeting>();
+        // Add memory cache for rate limiting
+        builder.Services.AddMemoryCache();
 
         var app = builder.Build();
 
@@ -41,10 +39,7 @@ internal class Program
         {
             app.UseDeveloperExceptionPage();
             app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-            });
+            app.UseSwaggerUI();
         }
         else
         {
@@ -53,6 +48,9 @@ internal class Program
         }
 
         app.UseHttpsRedirection();
+
+        // Add rate limiting middleware before authorization middleware
+        app.UseRateLimiting(limit: 5, window: TimeSpan.FromMinutes(1));
 
         app.UseAuthorization();
 
