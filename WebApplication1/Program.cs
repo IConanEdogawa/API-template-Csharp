@@ -1,5 +1,6 @@
 using App.Application;
 using App.Application.Extensions;
+using Microsoft.Extensions.Caching.Memory;
 using App.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,6 +32,7 @@ internal class Program
 
         // Add memory cache for rate limiting
         builder.Services.AddMemoryCache();
+        
 
         var app = builder.Build();
 
